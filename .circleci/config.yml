@@ -36,6 +36,8 @@ jobs:
     docker:
       - image: "cimg/base:stable"
     steps:
+      - node/install
+      - node/install-yarn
       - checkout
       - run: 
           name: Test Client 
