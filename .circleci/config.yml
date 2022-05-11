@@ -11,6 +11,7 @@ jobs:
     steps:
       # - node/install
       # - aws-cli/setup
+      - node/install-yarn
       - checkout
       # Download and cache dependencies
       - restore_cache:
