@@ -9,7 +9,7 @@ jobs:
     docker:
       - image: "cimg/base:stable"
     steps:
-      # - node/install
+      - node/install
       # - aws-cli/setup
       - node/install-yarn
       - checkout
