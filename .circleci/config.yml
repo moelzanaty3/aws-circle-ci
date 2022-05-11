@@ -39,6 +39,10 @@ jobs:
       - node/install
       - node/install-yarn
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
       - run: 
           name: Test Client 
           command: yarn client:test
