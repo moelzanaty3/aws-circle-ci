@@ -16,7 +16,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && aws s3 sync build/ s3://react-aws-ci-cd --delete"
+    "deploy": "npm run build && aws s3 sync build/ s3://zanaty-bucket-1"
   },
   "eslintConfig": {
     "extends": [

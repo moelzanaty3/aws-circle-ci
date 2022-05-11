@@ -1,3 +1,5 @@
+# for more enhancement https://circleci.com/blog/six-optimization-tips-for-your-config/
+
 version: 2.1
 
 orbs:
@@ -10,7 +12,6 @@ jobs:
       - image: "cimg/base:stable"
     steps:
       - node/install
-      # - aws-cli/setup
       - node/install-yarn
       - checkout
       # Download and cache dependencies
@@ -39,13 +40,9 @@ jobs:
       - node/install
       - node/install-yarn
       - checkout
-      # Download and cache dependencies
       - restore_cache:
           keys:
-            # Find a cache corresponding to this specific package.json checksum
-            # when this file is changed, this key will fail
             - v1-dependencies-{{ checksum "package.json" }}
-            # Find the most recently generated cache used from any branch
             - v1-dependencies-
       - run: 
           name: Install Client Dependencies
@@ -58,7 +55,29 @@ jobs:
       - run: 
           name: Test Client 
           command: yarn client:test
+  deploy:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - node/install
+      - node/install-yarn
+      - aws-cli/setup
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: 
+          name: Install Client Dependencies
+          command: yarn client:install
 
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Deploy Client
+          command: yarn client:deploy
 workflows:
   build_test_deploy:
     jobs:
@@ -66,6 +85,7 @@ workflows:
       - test:
           requires:
             - build
-      # - deploy:
-      #     requires:
-      #       - test
+      - deploy:
+          requires:
+            - test
+
