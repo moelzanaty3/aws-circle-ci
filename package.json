@@ -1,0 +1,9 @@
+{
+    "license": "MIT",
+    "scripts": {
+        "client:install": "cd client && yarn install",
+        "client:test": "cd client && yarn test",
+        "client:build": "cd client && yarn build",
+        "client:deploy": "cd client && yarn deploy"
+    }
+}
