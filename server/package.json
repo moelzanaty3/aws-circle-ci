@@ -13,7 +13,8 @@
     "build": "npm run clean && npx tsc && npm run copy && cd build && npm run zip && cd ..",
     "migration:run": "db-migrate up",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "deploy": "chmod +x ./bin/deploy.sh && ./bin/deploy.sh"
   },
   "keywords": [],
   "author": "",

@@ -4,6 +4,10 @@
         "client:install": "cd client && yarn install",
         "client:test": "cd client && yarn test",
         "client:build": "cd client && yarn build",
-        "client:deploy": "cd client && yarn deploy"
+        "client:deploy": "cd client && yarn deploy",
+        "server:install": "cd server && yarn install",
+        "server:build": "cd server && yarn build",
+        "server:deploy": "cd server && yarn deploy",
+        "server:test": "cd client && yarn test"
     }
 }

@@ -12,16 +12,26 @@
 | AWS_REGION            |  The AWS region you used to provision RDS, S3 and EB  |
 | AWS_ACCESS_KEY_ID      |                 Your AWS Access key ID               |
 | AWS_SECRET_ACCESS_KEY |              Your AWS secret Access key               |
+| AWS_S3_ENDPOINT       |             The url of the S3 hosted app.             |
+| AWS_REGION            |  The AWS region you used to provision RDS, S3 and EB  |
+| AWS_PROFILE           |                   Your AWS profile                    |
+| AWS_BUCKET            | The name of the S3 bucket used to host the front end  |
+| ------------------------------------------------------------------------------|
+| POSTGRES_HOST         |         The url of the RDS database instance          |
+| POSTGRES_DB           |                       postgres                        |
+| POSTGRES_USERNAME     | The username specified when creating the RDS instance |
+| POSTGRES_PASSWORD     | The password specified when creating the RDS instance |
+| DB_PORT               |  The port of the RDS db instance (5432 for postgres)  |
 
 ## AWS
 
-1. Create IAM user with `AmazonS3FullAccess`
+- Create IAM user with `AdministratorAccess`
 
-2. Configure the aws cli user with your terminal via `aws configure`
+- Configure the aws cli user with your terminal via `aws configure`
 
-3. Create S3 Bucket
+### Create S3 Bucket
 
-open terminal  and run the following to create s3 bucket
+- open terminal  and run the following to create s3 bucket
 
 ```bash
 aws s3api create-bucket \
@@ -29,7 +39,7 @@ aws s3api create-bucket \
            --region us-east-1
 ```
 
-4. Set Bucket Policy for S3 Bucket
+- Set Bucket Policy for S3 Bucket
 
 make sure u change `NAME_OF_YOUR_BUCKET` with your bucket name in my case will be `zanaty-bucket-1`
 
@@ -52,13 +62,13 @@ make sure u change `NAME_OF_YOUR_BUCKET` with your bucket name in my case will b
 }
 ```
 
-5. in your s3 bucket properties go to static website hosing and enable it as below image and save the changes
+- in your s3 bucket properties go to static website hosing and enable it as below image and save the changes
 
 ![images](./docs/images/s3-static-web-hosting.png)
 
-6. you should have a url for example `http://zanaty-bucket-1.s3-website-us-east-1.amazonaws.com/`
+- you should have a url for example `http://zanaty-bucket-1.s3-website-us-east-1.amazonaws.com/`
 
-7. now it's time to upload you static files and this can be by
+- now it's time to upload you static files and this can be by
 
 ```bash
 aws s3 sync build/ s3://zanaty-bucket-1
@@ -66,7 +76,7 @@ aws s3 sync build/ s3://zanaty-bucket-1
 
 > look for why `sync` not `cp` 'https://stackoverflow.com/a/64728207/6483379'
 
-8. Delete resource after you finish
+🐻 Delete all resource after you finish
 
 ```bash
 aws s3 rb s3://zanaty-bucket-1 --force  
