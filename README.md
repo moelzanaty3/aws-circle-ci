@@ -16,7 +16,7 @@
 | AWS_REGION            |  The AWS region you used to provision RDS, S3 and EB  |
 | AWS_PROFILE           |                   Your AWS profile                    |
 | AWS_BUCKET            | The name of the S3 bucket used to host the front end  |
-| ------------------------------------------------------------------------------|
+| ----------------------|-------------------------------------------------------|
 | POSTGRES_HOST         |         The url of the RDS database instance          |
 | POSTGRES_DB           |                       postgres                        |
 | POSTGRES_USERNAME     | The username specified when creating the RDS instance |
