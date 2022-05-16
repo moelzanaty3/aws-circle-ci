@@ -1,4 +1,4 @@
-# Steps to configure CircleCI with AWS s3
+# Steps to configure CircleCI with AWS S3, RDS and Elastic Beanstalk
 
 [![CircleCI](https://circleci.com/gh/moelzanaty3/react-aws-circle-ci/tree/main.svg?style=svg)](https://circleci.com/gh/moelzanaty3/react-aws-circle-ci/tree/main)
 
