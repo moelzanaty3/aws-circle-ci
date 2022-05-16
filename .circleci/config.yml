@@ -5,15 +5,12 @@ version: 2.1
 orbs:
   node: circleci/node@4.1.0
   aws-cli: circleci/aws-cli@2.0.3
+  eb: circleci/aws-elastic-beanstalk@1.0.0
 
-jobs:
-  build:
-    docker:
-      - image: "cimg/base:stable"
+commands:
+  install_client:
+    description: "command for Client Installation"
     steps:
-      - node/install
-      - node/install-yarn
-      - checkout
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -25,14 +22,41 @@ jobs:
       - run: 
           name: Install Client Dependencies
           command: yarn client:install
-
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+  install_server:
+    description: "command for Server Installation"
+    steps:          
+      - restore_cache:
+          keys:
+            - v2-dependencies-{{ checksum "package.json" }}
+            - v2-dependencies-
+      - run: 
+          name: Install Server Dependencies
+          command: yarn server:install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v2-dependencies-{{ checksum "package.json" }}
+
+jobs:
+  build:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - node/install
+      - node/install-yarn
+      - checkout
+      - install_client
+      - install_server
       - run:
           name: Build Client
           command: yarn client:build
+      - run:
+          name: Build Server
+          command: yarn server:build
   test:
     docker:
       - image: "cimg/base:stable"
@@ -40,21 +64,14 @@ jobs:
       - node/install
       - node/install-yarn
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run: 
-          name: Install Client Dependencies
-          command: yarn client:install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      - install_client
+      - install_server
       - run: 
           name: Test Client 
           command: yarn client:test
+      - run: 
+          name: Test Server 
+          command: yarn server:test
   deploy:
     docker:
       - image: "cimg/base:stable"
@@ -62,22 +79,17 @@ jobs:
       - node/install
       - node/install-yarn
       - aws-cli/setup
+      - eb/setup
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run: 
-          name: Install Client Dependencies
-          command: yarn client:install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      - install_client
+      - install_server
       - run:
           name: Deploy Client
           command: yarn client:deploy
+      - run:
+          name: Deploy Server
+          command: yarn server:deploy
+
 workflows:
   build_test_deploy:
     jobs:

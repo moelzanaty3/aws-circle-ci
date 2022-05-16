@@ -1,4 +1,4 @@
-import express, { Application } from 'express'
+import express, { Application, Request, Response } from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 import routes from './routes'
@@ -12,6 +12,10 @@ app.use(morgan('short'))
 app.use(cors())
 // add routing for /api path
 app.use('/api', routes)
+
+app.get('/', (req: Request, res: Response) => {
+  res.json({ message: 'Hello World' })
+})
 
 // start express server
 app.listen(PORT, () => {
