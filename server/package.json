@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node ./index.js",
     "test": "npx tsc && jasmine",
     "dev": "nodemon ./src/index.ts",
     "clean": "rimraf build/",
-    "build": "yarn clean && npx tsc",
-    "start": "npm run build && nodemon build/index.js",
+    "zip": "bestzip Archive.zip .",
+    "copy": "cp -rf src/config build/config && cp .npmrc build/.npmrc && cp package.json build/package.json",
+    "build": "npm run clean && npx tsc && npm run copy && cd build && npm run zip && cd ..",
     "migration:run": "db-migrate up",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
     "lint": "eslint . --ext .ts"
@@ -17,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bestzip": "^2.2.1",
     "cors": "^2.8.5",
     "db-migrate": "^0.11.13",
     "db-migrate-pg": "^1.2.2",
